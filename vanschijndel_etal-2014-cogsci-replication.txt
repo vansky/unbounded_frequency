@@ -10,32 +10,36 @@ make genmodel/wsj02to21.gcg13.1671.0sm.grammar
 
 # For each regular expression, sum the probabilities associated with that regular expression.
 # This can be automated by piping the output of the grep'd .grammar file to:
-sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
+# sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 
 # For each set of regular expressions, multiply the associated summed probabilities together to obtain the final associated probability 
 
 #############
-# Transitive Interpretation Probabilities
+echo
+echo Transitive Interpretation Probabilities
 #############
 
-# P(VP-gNP -> VP-gNP PP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP PP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-# Prior counts of transitives
+echo Prior counts of transitives
 grep -oe 'V-aN-bN-lI [^(]' genmodel/wsj02to21.gcg13.linetrees | wc -l
 # = 14719
 
 #############
-# Intransitive Interpretation Probabilities
+echo
+echo Intransitive Interpretation Probabilities
 #############
-# P(VP-gNP -> VP PP-gNP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP PP-gNP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&lI^g_0 R&aN&gN&lM^g_0 0.0021914923237144144
 # V&aN&gN&lI^g_0 -> V&aN&lI_0 R&aN&gN&lM^g_0 0.009631699992921688
 # = .0118231923166361024
 
-# Prior counts of intransitives
+echo Prior counts of intransitives
 grep -oe 'V-aN-lI [^(]' genmodel/wsj02to21.gcg13.linetrees | wc -l
 # = 5617
 
@@ -43,34 +47,41 @@ grep -oe 'V-aN-lI [^(]' genmodel/wsj02to21.gcg13.linetrees | wc -l
 ##########################
 
 #############
-# Footnote 2 Probabilities
+echo
+echo Footnote 2 Probabilities
 #############
 
 #############
-# Transitive Interpretation Probabilities (with preterminals)
+echo
+echo Transitive Interpretation Probabilities (with preterminals)
 #############
 
-# P(VP-gNP -> VP-gNP PP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP PP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar |
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-# P(VP-gNP -> TV)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&bN[^ ]* [0-9]" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> TV)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&bN[^ ]* [0-9]" genmodel/wsj02to21.gcg13.1671.0sm.grammar |
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&bN&lI_0 0.2705264963943486
 # 
 # P(Transitive w/ preterminals) = .17*.27 = 0.0459
 
 #############
-# Intransitive Interpretation Probabilities (with preterminals)
+echo
+echo Intransitive Interpretation Probabilities (with preterminals)
 #############
 
 # Now VP != IV:
-# P(VP-gNP -> VP PP-gNP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI^[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP PP-gNP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI^[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&lI^g_0 R&aN&gN&lM^g_0 0.0021914923237144144
 
-# P(VP-gNP -> IV *)
-grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> IV *)
+grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI_0 ,&lM^g_0 8.368780275829337E-4
 # V&aN&lI^g_0 -> V&aN&lI_0 R&aN&lM^g_0 0.05012570463054172
 # V&aN&lI^g_0 -> V&aN&lI_0 &LRB&&lM^g_0 2.6579767403242102E-5
@@ -84,10 +95,12 @@ grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^ ]* " genmodel/wsj02to21.gcg13.1671.0s
 # = .05169275632586044810
 # P(Intransitive w/ preterminals) = .002*.052 = 0.000104
 
-# Note: That was actually kind of a dumb thing to do because some of those weren't plausible, but it gave P&T '03 the best possible break
+# Note: That was actually kind of a dumb thing to do because some of those weren't plausible, 
+#       but it gave P&T '03 the best possible break
 # A more principled version would actually be something like this:
-# P(VP-gNP -> IV *)
-grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^&][^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> IV *)
+grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^&][^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI_0 ,&lM^g_0 8.368780275829337E-4
 # V&aN&lI^g_0 -> V&aN&lI_0 R&aN&lM^g_0 0.05012570463054172
 # V&aN&lI^g_0 -> V&aN&lI_0 ``&lM^g_0 1.3222015767976047E-4
@@ -99,31 +112,37 @@ grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* [^&][^vo]*l[^N][^ ]* " genmodel/wsj02to2
 ##########################
 
 #############
-# Transitive Interpretation Probabilities (with adverb)
+echo
+echo Transitive Interpretation Probabilities (with adverb)
 #############
 
-# P(VP-gNP -> VP-gNP PP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP PP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-# P(VP-gNP -> VP-gNP Adv) #Note that the Nguyen et al. (2012) GCG considers PP and Adv to be the same category; See Moderately Lexicalized paper for more details;
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP Adv) #Note that the Nguyen et al. (2012) GCG considers PP and Adv to be the same category; See Moderately Lexicalized paper for more details;
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 # 
 # P(Transitive w/ adverb) = .17*.17 = 0.029
 
 #############
-# Intransitive Interpretation Probabilities (with adverb)
+echo
+echo Intransitive Interpretation Probabilities (with adverb)
 #############
 
-# P(VP-gNP -> VP PP-gNP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP PP-gNP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&lI^g_0 R&aN&gN&lM^g_0 0.0021914923237144144
 # V&aN&gN&lI^g_0 -> V&aN&lI_0 R&aN&gN&lM^g_0 0.009631699992921688
 # = .0118231923166361024
 
-# P(VP -> VP Adv)
-grep -e "V&aN&lI[^ ]* -> V&aN&lI[^ ]* R&aN&[^vo]*l[^N]" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP -> VP Adv)
+grep -e "V&aN&lI[^ ]* -> V&aN&lI[^ ]* R&aN&[^vo]*l[^N]" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI^g_0 R&aN&lM^g_0 0.13026808265564047
 # V&aN&lI^g_0 -> V&aN&lI_0 R&aN&lM^g_0 0.05012570463054172
 # = .18039378728618219
@@ -133,33 +152,40 @@ grep -e "V&aN&lI[^ ]* -> V&aN&lI[^ ]* R&aN&[^vo]*l[^N]" genmodel/wsj02to21.gcg13
 ##########################
 
 #############
-# Transitive Interpretation Probabilities (with adverb and preterminals)
+echo
+echo Transitive Interpretation Probabilities (with adverb and preterminals)
 #############
 
-# P(VP-gNP -> VP-gNP PP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP PP)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-# P(VP-gNP -> VP-gNP Adv)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> VP-gNP Adv)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-# P(VP-gNP -> TV)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&bN[^ ]* [0-9]" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(VP-gNP -> TV)
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&bN[^ ]* [0-9]" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&bN&lI_0 0.2705264963943486
 #
 # P(Transitive w/ adverb and preterms) = .17*.17*.27 = 0.0078
 
 #############
-# Intransitive Interpretation Probabilities (with adverb and preterminals)
+echo
+echo Intransitive Interpretation Probabilities (with adverb and preterminals)
 #############
 
 # P(VP-gNP -> VP PP-gNP)
-grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI^[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+grep -e "V&aN&gN&lI[^ ]* -> V&aN&lI^[^ ]* R&aN&gN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&lI^g_0 R&aN&gN&lM^g_0 0.0021914923237144144
 
 # P(VP -> IV Adv)
-grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI_0 R&aN&lM^g_0 0.05012570463054172
 #
 # P(Intransitive w/ adverb and preterms) = .002*.05 = 0.0001
@@ -168,42 +194,51 @@ grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to2
 ##########################
 
 #############
-# Heavy-NP Shift Analysis
+echo
+echo
+echo Heavy-NP Shift Analysis
 #############
 
-There are three potential readings one could adopt:
-1) Transitive w/ heavy-NP shift
-   (V-aN (V-aN-bN (V-aN-bN ...) (R-aN ...)) (N ...))
+echo There are three potential readings one could adopt:
+echo 1) Transitive w/ heavy-NP shift
+echo   (V-aN (V-aN-bN (V-aN-bN ...) (R-aN ...)) (N ...))
 
-# P(V-aN -> V-aN-bN N) #here, V-aN-bN is not a preterminal
-grep -e "V&aN&lI^[^ ]* -> V&aN&bN&lI^[^ ]* N" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(V-aN -> V-aN-bN N) #here, V-aN-bN is not a preterminal
+grep -e "V&aN&lI^[^ ]* -> V&aN&bN&lI^[^ ]* N" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&bN&lI^g_0 N&lA^g_0 0.010542968336486146
 
-# P(V-aN-bN -> V-aN-bN R-aN)
-grep -e "V&aN&bN&lI^[^ ]* -> V&aN&bN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(V-aN-bN -> V-aN-bN R-aN)
+grep -e "V&aN&bN&lI^[^ ]* -> V&aN&bN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&bN&lI^g_0 -> V&aN&bN&lI_0 R&aN&lM^g_0 0.14957393282039155
 #
 # Total = .0015
 #  /2.6 = .0006 # just multiply by subcat bias
 
-2) Transitive w/o heavy-NP shift
-   (V-aN (V-aN (V-aN-bN ...) (N ...)) (R-aN ...))
+echo
+echo 2) Transitive w/o heavy-NP shift
+echo   (V-aN (V-aN (V-aN-bN ...) (N ...)) (R-aN ...))
 
-# P(V-aN -> V-aN R-aN)
-grep -e "V&aN&lI^[^ ]* -> V&aN&lI^[^ ]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(V-aN -> V-aN R-aN)
+grep -e "V&aN&lI^[^ ]* -> V&aN&lI^[^ ]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI^g_0 R&aN&lM^g_0 0.13026808265564047
 
-# P(V-aN -> V-aN-bN N) #here, V-aN-bN is a preterminal
-grep -e "V&aN&lI^[^ ]* -> V&aN&bN&lI[^ ^]* N" genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo P(V-aN -> V-aN-bN N) #here, V-aN-bN is a preterminal
+grep -e "V&aN&lI^[^ ]* -> V&aN&bN&lI[^ ^]* N" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&bN&lI_0 N&lA^g_0 0.15491621465719815
 #
 # Total = .13*.155 = .02
 #  /2.6 = .0077 # just multiply by subcat bias
 
-3) Intransitive
-   (V-aN (V-aN ...) (R-aN ...))
-# P(V-aN -> V-aN R-aN)
-grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar
+echo
+echo 3) Intransitive
+echo   (V-aN (V-aN ...) (R-aN ...))
+echo P(V-aN -> V-aN R-aN)
+grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to21.gcg13.1671.0sm.grammar \
+| sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&lI^g_0 -> V&aN&lI_0 R&aN&lM^g_0 0.05012570463054172
 #
 # Total = .05
