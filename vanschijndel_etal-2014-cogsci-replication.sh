@@ -124,7 +124,8 @@ grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm
 | sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
 
-echo P(VP-gNP -> VP-gNP Adv) #Note that the Nguyen et al. (2012) GCG considers PP and Adv to be the same category; See Moderately Lexicalized paper for more details;
+echo P(VP-gNP -> VP-gNP Adv) 
+# Note that the Nguyen et al. (2012) GCG considers PP and Adv to be the same category
 grep -e "V&aN&gN&lI[^ ]* -> V&aN&gN[^ ]* R&aN" genmodel/wsj02to21.gcg13.1671.0sm.grammar \
 | sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 # V&aN&gN&lI^g_0 -> V&aN&gN&lI^g_0 R&aN&lM^g_0 0.17024889762085796
