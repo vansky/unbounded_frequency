@@ -1,18 +1,21 @@
 #!/bin/bash
 # The following regular expressions are used to obtain corpus counts.
 # They presuppose that you have a GCG-annotated version of the Wall Street Journal (WSJ) corpus.
-# To obtain this, you will need access to the WSJ corpus, and you can download Modelblocks here: http://sourceforge.net/projects/modelblocks/
+# To obtain this, you will need access to the WSJ corpus, and you can download Modelblocks here: 
+#   http://sourceforge.net/projects/modelblocks/
 
 # Then go to the main Modelblocks directory and run the following commands:
 cd wsjparse
 make genmodel/wsj02to21.gcg13.1671.0sm.grammar 
-# There may be some required make items you have to make first to configure Modelblocks, so pay attention to what Make has trouble with.
+# There may be some required make items you have to make first to configure Modelblocks, 
+# so pay attention to what Make has trouble with.
 
 # For each regular expression, sum the probabilities associated with that regular expression.
 # This can be automated by piping the output of the grep'd .grammar file to:
 # sed 's/^.* \([^ ]*\)$/\1/g' | sed 's/E\([^0-9]*[0-9]*\)/*10^(\1)/g' | paste -sd+ - | bc -l
 
-# For each set of regular expressions, multiply the associated summed probabilities together to obtain the final associated probability 
+# For each set of regular expressions, multiply the associated summed probabilities together to 
+# obtain the final associated probability 
 
 #############
 echo
@@ -253,10 +256,12 @@ grep -e "V&aN&lI^[^ ]* -> V&aN&lI[^ ^]* R&aN[^vo]*l[^N][^ ]* " genmodel/wsj02to2
 #   which will cause slowing at the pre-object R-aN since 1 was dispreferred
 #
 # In order for an optionally transitive verb to prefer 1 [shifted] over 3 [intransitive], 
-#  it would have to appear in transitive constructions 1*.05/.0006 = 83 times for every 1 time it appeared in intransitive constructions
-#  (99% transitive bias)
-# If a verb appears as transitive 1*.05/.0077 = 6.5 times for every 1 time it appears as intransitive (6.5/(6.5+1) = 87% transitive bias)
-#  it should yield slowing at the R-aN in the optionally transitive case (compared with R-aN in the unshifted, optionally transitive case), 
-#  which is not something Staub et al. (2006) observed, but their verbs did not approach this level of transitive bias (in their Experiment 2)
+#  it would have to appear in transitive constructions 1*.05/.0006 = 83 times for every 1 
+#  time it appeared in intransitive constructions (99% transitive bias)
+# If a verb appears as transitive 1*.05/.0077 = 6.5 times for every 1 time it appears as 
+#  intransitive (6.5/(6.5+1) = 87% transitive bias) it should yield slowing at the R-aN in the 
+#  optionally transitive case (compared with R-aN in the unshifted, optionally transitive case), 
+#  which is not something Staub et al. (2006) observed, but their verbs did not approach this level 
+#  of transitive bias (in their Experiment 2)
 
 
